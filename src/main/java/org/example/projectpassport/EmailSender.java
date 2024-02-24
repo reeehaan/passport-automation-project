@@ -44,53 +44,60 @@ public class EmailSender {
     }
 
     private  String emailLayout(String id ,String date ,String time){
+
         return "<!DOCTYPE html>\n" +
                 "<html lang=\"en\">\n" +
                 "<head>\n" +
                 "<meta charset=\"UTF-8\">\n" +
                 "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
-                "<title>Email Appointment Date</title>\n" +
+                "<title>Passport Appointment Receipt</title>\n" +
                 "<style>\n" +
-                "  body {\n" +
-                "    font-family: Arial, sans-serif;\n" +
-                "    background-color: #f4f4f4;\n" +
-                "    margin: 0;\n" +
-                "    padding: 0;\n" +
-                "  }\n" +
-                "  .container {\n" +
-                "    max-width: 600px;\n" +
-                "    margin: 0 auto;\n" +
-                "    padding: 20px;\n" +
-                "    background-color: #ffffff;\n" +
-                "    border-radius: 10px;\n" +
-                "    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);\n" +
-                "  }\n" +
-                "  h2 {\n" +
-                "    color: #333333;\n" +
-                "  }\n" +
-                "  .appointment-details {\n" +
-                "    margin-top: 20px;\n" +
-                "  }\n" +
-                "  .detail-label {\n" +
-                "    font-weight: bold;\n" +
-                "  }\n" +
-                "  .detail-value {\n" +
-                "    margin-bottom: 10px;\n" +
-                "  }\n" +
+                "    body {\n" +
+                "        font-family: Arial, sans-serif;\n" +
+                "        margin: 0;\n" +
+                "        padding: 0;\n" +
+                "        background-color: #f4f4f4;\n" +
+                "    }\n" +
+                "    .container {\n" +
+                "        max-width: 600px;\n" +
+                "        margin: 20px auto;\n" +
+                "        padding: 20px;\n" +
+                "        background-color: #fff;\n" +
+                "        border-radius: 8px;\n" +
+                "        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);\n" +
+                "    }\n" +
+                "    h1, p {\n" +
+                "        margin: 0;\n" +
+                "        padding: 0;\n" +
+                "    }\n" +
+                "    .receipt-info {\n" +
+                "        margin-bottom: 20px;\n" +
+                "    }\n" +
+                "    .receipt-info h2 {\n" +
+                "        color: #00C2FF;\n" +
+                "    }\n" +
+                "    .receipt-details {\n" +
+                "        background-color: #f9f9f9;\n" +
+                "        padding: 10px 20px;\n" +
+                "        border-radius: 5px;\n" +
+                "    }\n" +
+                "    .receipt-details p {\n" +
+                "        margin: 5px 0;\n" +
+                "    }\n" +
                 "</style>\n" +
                 "</head>\n" +
                 "<body>\n" +
-                "  <div class=\"container\">\n" +
-                "    <h2>Appointment Details</h2>\n" +
-                "    <div class=\"appointment-details\">\n" +
-                "      <p class=\"detail-label\">Your Application ID:</p>\n" +
-                "      <p class=\"detail-value\">"+id+"</p>\n" +
-                "      <p class=\"detail-label\">Time:</p>\n" +
-                "      <p class=\"detail-value\">"+time+"</p>\n" +
-                "      <p class=\"detail-label\">Date:</p>\n" +
-                "      <p class=\"detail-value\">"+date+"</p>\n" +
+                "<div class=\"container\">\n" +
+                "    <div class=\"receipt-info\">\n" +
+                "        <h2>Passport Appointment Schedule</h2>\n" +
+                "        <p>You can only change  your appointment details only 3 Times:</p>\n" +
                 "    </div>\n" +
-                "  </div>\n" +
+                "    <div class=\"receipt-details\">\n" +
+                "        <p><strong>Application ID:</strong> "+id+"</p>\n" +
+                "        <p><strong>Date:</strong> "+date+"</p>\n" +
+                "        <p><strong>Time:</strong> "+time+"</p>\n" +
+                "    </div>\n" +
+                "</div>\n" +
                 "</body>\n" +
                 "</html>\n";
     }
