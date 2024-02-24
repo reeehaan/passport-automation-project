@@ -167,15 +167,12 @@ public class HelloController implements Initializable {
     @FXML
     //admin appointment.
     public TextField txtId,txtEmail,txtPhone;
-    Connection conn;
-    String url = "jdbc:mysql://localhost:3306/passport_system";
-    String sqlusername = "root";
-    String sqlpassword = "Rehan@221104";
-
 
     User user = new User();
     Admin admin = new Admin();
     Police police = new Police();
+    SqlConnection conn = new SqlConnection();
+    Connection c;
 
 
     public void userRegister(ActionEvent event) {
@@ -407,9 +404,9 @@ public class HelloController implements Initializable {
         String applicationId = applicationIdTextBox.getText();
 
         try {
-
-            conn = DriverManager.getConnection(url, sqlusername, sqlpassword);
-            Statement statement = conn.createStatement();
+            c= conn.connectDb();
+//            conn = DriverManager.getConnection(url, sqlusername, sqlpassword);
+            Statement statement = c.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM  registrationForm WHERE idregistrationForm ='" + applicationId + "'");
 
             if (!resultSet.next()) {
@@ -479,26 +476,13 @@ public class HelloController implements Initializable {
        String id = PLIdtextField.getText();
        police.policeStatusBad(id);
     }
-    public Connection getConnection() {
-        String url = "jdbc:mysql://localhost:3306/passport_system";
-        String sqlusername = "root";
-        String sqlpassword = "Rehan@221104";
-
-        try {
-            Connection conn = DriverManager.getConnection(url, sqlusername, sqlpassword);
-            return conn;
-
-        } catch (SQLException exception) {
-            System.out.println("Connection Fails");
-        }
-
-        return null;
-    }
+//
     private void loadDataIntoPoliceTable() {
         ObservableList<applicationForm> list = FXCollections.observableArrayList();
-        Connection connection = getConnection();
+
+        c = conn.connectDb();
         try {
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM registrationForm WHERE police_status = 'pending'");
+            PreparedStatement ps = c.prepareStatement("SELECT * FROM registrationForm WHERE police_status = 'pending'");
             ResultSet resultSet = ps.executeQuery();
 
             while (resultSet.next()) {
@@ -533,12 +517,13 @@ public class HelloController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+
     public void laodDataIntoAdminTable(){
         ObservableList<AdminApplicationForm> list2 = FXCollections.observableArrayList();
-        Connection conn = getConnection();
+        c = conn.connectDb();
         try {
 
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM registrationForm WHERE police_status IN ('Good', 'Bad');");
+            PreparedStatement ps = c.prepareStatement("SELECT * FROM registrationForm WHERE police_status IN ('Good', 'Bad');");
             ResultSet rs = ps.executeQuery();
 
 
@@ -569,10 +554,11 @@ public class HelloController implements Initializable {
     }
     public void loadDataIntoAdminAppointmentTable(){
         ObservableList<AdminAppointmentSchedule> list3 = FXCollections.observableArrayList();
-        Connection conn2 = getConnection();
+
+        c= conn.connectDb();
         try {
 
-            PreparedStatement ps1 = conn2.prepareStatement("SELECT * FROM registrationForm WHERE admin_status = 'Approved';");
+            PreparedStatement ps1 = c.prepareStatement("SELECT * FROM registrationForm WHERE admin_status = 'Approved';");
             ResultSet rs1 = ps1.executeQuery();
 
 
