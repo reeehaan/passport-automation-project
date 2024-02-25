@@ -11,10 +11,7 @@ import org.example.projectpassport.SqlConnection;
 import java.sql.*;
 
 public class User {
-   @FXML
-   public Pane dashboard;
-   @FXML
-   public TextField applicantIdLabel;
+
 
 
     SqlConnection conn1 = new SqlConnection();
@@ -156,6 +153,33 @@ public class User {
         }
         return 0;
     }
+    public void changeAppointment(String id,String date,String time){
+        try{
+            c =conn1.connectDb();
+            String sql = "UPDATE registrationForm SET appointment_date = '"+ date +"',appointment_time = '"+ time +"' WHERE idregistrationForm = '"+id+"'";
+            statement = c.prepareStatement(sql);
+            statement.executeUpdate();
+            int rowsInserted = statement.executeUpdate();
+
+            if (rowsInserted > 0) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Passport System");
+                alert.setContentText("Appointment is added");
+                alert.showAndWait();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Passport System");
+                alert.setContentText("Fail to add appointment");
+                alert.showAndWait();
+            }
+        }catch (SQLException exception){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Passport System");
+            alert.setContentText("Connection fails in add appointment");
+            alert.showAndWait();
+        }
+    }
+
 
 
 }

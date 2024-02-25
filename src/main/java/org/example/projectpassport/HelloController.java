@@ -18,7 +18,9 @@ import org.example.projectpassport.tableView.applicationForm;
 
 import java.net.URL;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
+import java.util.SimpleTimeZone;
 
 
 public class HelloController implements Initializable {
@@ -133,9 +135,9 @@ public class HelloController implements Initializable {
     public RadioButton maleRadioButton, femaleRadioButton,employedRadioButton,unEmployedRadioButton;
     @FXML
     public Label successLabal, applicationSucceslabel, applicantIdLabel;
-    @FXML
-    //registration form labels.
-    public Label regFullNamelabel1, regUsernamelabel2, regPasswordlabel3, regEmaillabel4;
+//    @FXML
+//    //registration form labels.
+//    public Label regFullNamelabel1, regUsernamelabel2, regPasswordlabel3, regEmaillabel4;
     @FXML
     //userLogin form labels.
     public Label usernameWarningLabel, passwordWarningLabel1;
@@ -160,13 +162,14 @@ public class HelloController implements Initializable {
     @FXML
     public DatePicker DobDatePicker;
     @FXML
-    private ComboBox<String> AppointmentTimeComboBox;
+    private ComboBox<String> AppointmentTimeComboBox,AppointmentUserTimeBox;
     @FXML
-    private DatePicker AppointmentDatePicker;
-
+    private DatePicker AppointmentDatePicker,AppointmentUserDatePicker;
     @FXML
     //admin appointment.
-    public TextField txtId,txtEmail,txtPhone;
+    public TextField txtId,txtEmail,txtPhone,AppointmentIdTxt;
+    @FXML
+    public TextField AppointmentNametxt;
 
     User user = new User();
     Admin admin = new Admin();
@@ -238,19 +241,12 @@ public class HelloController implements Initializable {
 
     public void userRegisterButton(ActionEvent event) {
         //new user registration
-
-        if (regName.getText().isEmpty()) {
-            //System.out.println("Enter your name");
-            regFullNamelabel1.setText("Enter the full name");
-        } else if (regUsername.getText().isEmpty()) {
-            //System.out.println("Enter your username");
-            regUsernamelabel2.setText("Enter the username");
-        } else if (regPassword.getText().isEmpty()) {
-            //System.out.println("Enter the password");
-            regPasswordlabel3.setText("Enter the password");
-        } else if (regEmail.getText().isEmpty()) {
-            //System.out.println("Enter the email");
-            regEmaillabel4.setText("Enter the Email");
+        if(regName.getText().isEmpty()||regUsername.getText().isEmpty()||regPassword.getText().isEmpty()||regEmail.getText().isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Passport System");
+            alert.setHeaderText("New Registration");
+            alert.setContentText("Please enter values for text fields!");
+            alert.showAndWait();
         } else {
             String fullname = regName.getText();
             String username = regUsername.getText();
@@ -265,61 +261,130 @@ public class HelloController implements Initializable {
 
 
     public void applicationSubmiteButton(ActionEvent event) {
+        if (applicationFN.getText().isEmpty() ){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Passport System");
+            alert.setHeaderText("Application Form");
+            alert.setContentText("Please enter the first name ");
+            alert.showAndWait();
+        } else if (applicationLN.getText().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Passport System");
+            alert.setHeaderText("Application Form");
+            alert.setContentText("Please enter the last name ");
+            alert.showAndWait();
+        } else if (applicationNIC.getText().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Passport System");
+            alert.setHeaderText("Application Form");
+            alert.setContentText("Please enter values for NIC ");
+            alert.showAndWait();
+        } else if (applicationAddress.getText().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Passport System");
+            alert.setHeaderText("Application Form");
+            alert.setContentText("Please enter the address");
+            alert.showAndWait();
+        } else if (applicationNationality.getText().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Passport System");
+            alert.setHeaderText("Application Form");
+            alert.setContentText("Please enter the nationality");
+            alert.showAndWait();
+        } else if ((DobDatePicker.getValue() == null)) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Passport System");
+            alert.setHeaderText("Application Form");
+            alert.setContentText("Please select the date of birth");
+            alert.showAndWait();
+        } else if (!maleRadioButton.isSelected() && !femaleRadioButton.isSelected()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Passport System");
+            alert.setHeaderText("Application Form");
+            alert.setContentText("Please select the gender.");
+            alert.showAndWait();
+        } else if (applicationPhoneNo.getText().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Passport System");
+            alert.setHeaderText("Application Form");
+            alert.setContentText("Please enter the phone number");
+            alert.showAndWait();
+        } else if (applicationEmail.getText().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Passport System");
+            alert.setHeaderText("Application Form");
+            alert.setContentText("Please enter the email");
+            alert.showAndWait();
+        } else if (applicationBirthCertificateNo.getText().isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Passport System");
+            alert.setHeaderText("Application Form");
+            alert.setContentText("Please enter birth certificate number");
+            alert.showAndWait();
+        }else if (!employedRadioButton.isSelected() && !unEmployedRadioButton.isSelected()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Passport System");
+            alert.setHeaderText("Application Form");
+            alert.setContentText("Please select the occupation");
+            alert.showAndWait();
 
-        String firstName = applicationFN.getText();
-        String lastName = applicationLN.getText();
-        String nic = applicationNIC.getText();
-        String address = applicationAddress.getText();
-        String nationality = applicationNationality.getText();
-        String dateOfBirth = String.valueOf(DobDatePicker.getValue());
-        String phoneNo = applicationPhoneNo.getText();
-        String email = applicationEmail.getText();
-        String birthCertificateNo = applicationBirthCertificateNo.getText();
 
-
-
-        boolean male = false;
-        boolean female = false;
-        String gender = null;
-        if (maleRadioButton.isSelected()) {
-            male = true;
-        } else if (femaleRadioButton.isSelected()) {
-            female = true;
         } else {
-            System.out.println("Select the gender ");
+            String firstName = applicationFN.getText();
+            String lastName = applicationLN.getText();
+            String nic = applicationNIC.getText();
+            String address = applicationAddress.getText();
+            String nationality = applicationNationality.getText();
+            String dateOfBirth = String.valueOf(DobDatePicker.getValue());
+            String phoneNo = applicationPhoneNo.getText();
+            String email = applicationEmail.getText();
+            String birthCertificateNo = applicationBirthCertificateNo.getText();
+
+
+            boolean male = false;
+            boolean female = false;
+            String gender = null;
+            if (maleRadioButton.isSelected()) {
+                male = true;
+            } else if (femaleRadioButton.isSelected()) {
+                female = true;
+            } else {
+                System.out.println("Select the gender ");
+            }
+
+
+            if (male) {
+                gender = "male";
+            } else if (female) {
+                gender = "female";
+            }
+
+
+            boolean employed = false;
+            boolean unemployed = false;
+            String profession = null;
+
+            if (employedRadioButton.isSelected()) {
+                employed = true;
+            } else if (unEmployedRadioButton.isSelected()) {
+                unemployed = true;
+            } else {
+                System.out.println("Select the profession");
+            }
+
+            if (employed) {
+                profession = "employed";
+            } else if (unemployed) {
+                profession = "Un employed";
+            }
+
+
+            //method userApplicationformSubmite
+            user.userApplicationformSubmite(firstName, lastName, nic, address, nationality, dateOfBirth, gender, phoneNo, email, birthCertificateNo, profession);
+            applicantIdLabel.setText(String.valueOf(user.getApplicationFormId(nic)));
+
+
         }
-
-
-        if (male) {
-            gender = "male";
-        } else if (female) {
-            gender = "female";
-        }
-
-
-        boolean employed = false;
-        boolean unemployed = false;
-        String profession = null;
-
-        if(employedRadioButton.isSelected()){
-            employed = true;
-        }else if(unEmployedRadioButton.isSelected()){
-            unemployed = true;
-        }else{
-            System.out.println("Select the profession");
-        }
-
-        if(employed){
-            profession = "employed";
-        }else if(unemployed){
-            profession = "Un employed";
-        }
-
-
-        //method userApplicationformSubmite
-        user.userApplicationformSubmite(firstName,lastName,nic,address,nationality,dateOfBirth,gender,phoneNo,email,birthCertificateNo,profession);
-        applicantIdLabel.setText(String.valueOf(user.getApplicationFormId(nic)));
-
 
     }
 
@@ -405,7 +470,7 @@ public class HelloController implements Initializable {
 
         try {
             c= conn.connectDb();
-//            conn = DriverManager.getConnection(url, sqlusername, sqlpassword);
+
             Statement statement = c.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM  registrationForm WHERE idregistrationForm ='" + applicationId + "'");
 
@@ -631,5 +696,50 @@ EmailSender emailSender = new EmailSender();
 
     public void userChangeAppointmentButton(ActionEvent event) {
         changeAppointment.toFront();
+    }
+
+    public void changeAppointmentDashboardButton(ActionEvent event) {
+        dashboard.toFront();
+    }
+
+    public void checkAppointmentButton(ActionEvent event) {
+        String id = AppointmentIdTxt.getText();
+
+        try{
+            c= conn.connectDb();
+            String sql = "SELECT * FROM registrationForm WHERE idregistrationForm = '"+id+"'";
+            Statement s = c.createStatement();
+            ResultSet rs = s.executeQuery(sql);
+
+            if(!rs.next()){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Passport System");
+                alert.setHeaderText("Change Appointment");
+                alert.setContentText("Application ID not found");
+                alert.showAndWait();
+
+            }else {
+                AppointmentNametxt.setText(rs.getString("first_name"));
+                LocalDate dateFromDatabase = rs.getDate("appointment_date").toLocalDate();
+                AppointmentUserDatePicker.setValue(dateFromDatabase);
+            }
+
+        }catch (SQLException exception){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Passport System");
+            alert.setHeaderText("Change Appointment");
+            alert.setContentText("Connection fails");
+            alert.showAndWait();
+
+        }
+        AppointmentUserTimeBox.setItems(FXCollections.observableArrayList("9:00 AM","10:00 AM","11:00 AM","2:00 PM","3:00 PM"));
+    }
+
+    public void ChangeAppointmentConfirmButton(ActionEvent event) {
+        String id = AppointmentIdTxt.getText();
+        String name = AppointmentNametxt.getText();
+        String date = String.valueOf(AppointmentUserDatePicker.getValue());
+        String time = String.valueOf(AppointmentUserTimeBox.getValue());
+        user.changeAppointment(id,date,time);
     }
 }
